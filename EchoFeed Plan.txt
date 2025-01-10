@@ -1,0 +1,48 @@
+EchoFeed Plan
+
+make model = User
+make model = Post
+
+CRUD for User model
+CRUD for Post model
+
+___________________
+Registration page
+Login page
+Profile page (edit and delete buttons)
+Edit Profile page(only shown to the user)
+
+Add Post page
+Read Post page (feed)
+Read Post page (single post)(Edit and delete post buttons)(only shown to the user that posted the post)
+edit post page
+_______________________
+future plans:
+
+make model = Comments
+Crud for Comments model
+
+comment button on the post feed partials and in the post single page
+Read comment (in single post page)
+edit comment page (button in partial only displayed for the commentor)
+delete button next to the edit button to delete the post (only displayed to the commentor)
+
+
+profile page displays all the user's posts
+profile displays all the users comments
+
+_______________________________________
+make model = Bookmarks
+
+ability to save a user's page to easily see their posts 
+CRD for bookmarks 
+
+add to bookmarks button in a user's profile
+profile page will display the profiles bookmarked
+remove bookmark button next to displayed bookmark in profile
+bookmarked page to show only the bookmarked user's posts
+
+
+
+
+
