@@ -42,6 +42,7 @@ profile page will display the profiles bookmarked
 remove bookmark button next to displayed bookmark in profile
 bookmarked page to show only the bookmarked user's posts
 
+----------------------------------
 
 
 
