@@ -24,7 +24,6 @@ Crud for Comments model
 
 comment button on the post feed partials and in the post single page
 Read comment (in single post page)
-edit comment page (button in partial only displayed for the commentor)
 delete button next to the edit button to delete the post (only displayed to the commentor)
 
 
