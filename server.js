@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+/* -------------- Static-folder ---------------- */
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* -------------- dotenv ---------------- */
 require('dotenv').config();
@@ -57,6 +59,12 @@ app.use(
   })
 );
 
+/* -------------- Routes ---------------- */
+//home route
+app.get('/', (req, res) => {
+  res.render('pages/home.ejs');
+});
+
 /* -------------- Controllers ---------------- */
 //for the authentification controller
 const authController = require("./controllers/auth.js");
@@ -77,17 +85,6 @@ app.use('/comments', commentsController);
 //for the bookmarks controller
 const bookmarksController = require("./controllers/bookmarks.js");
 app.use('/bookmarks', bookmarksController);
-
-/* -------------- Routes ---------------- */
-
-
-
-
-
-
-
-
-
 
 
 /* -------------- App-Listener ---------------- */
