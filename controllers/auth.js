@@ -81,7 +81,7 @@ router.get("/sign-out", (req, res) => {
 
 
 //call to user model
-const User = require("../models/users.js");
+const User = require("../models/user.js");
 
 //module export
 module.exports = router;

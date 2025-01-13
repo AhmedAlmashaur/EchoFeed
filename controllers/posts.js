@@ -5,7 +5,7 @@ const router = express.Router();
 /*------------- Get routes ---------------*/
 
 // Get all posts
-app.get('/feed', (req, res) => {
+router.get('/feed', (req, res) => {
     Post.find({}, (error, allPosts) => {
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -15,7 +15,7 @@ app.get('/feed', (req, res) => {
 });
 
 // Get one post
-app.get('/feed/:id', (req, res) => {
+router.get('/feed/:id', (req, res) => {
     Post.findById(req.params.id, (error, foundPost) => {
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -25,7 +25,7 @@ app.get('/feed/:id', (req, res) => {
 });
 
 // Get all posts by a specific user
-app.get('/feed/user/:userId', (req, res) => {
+router.get('/feed/user/:userId', (req, res) => {
     Post.find({ userId: req.params.userId }, (error, posts) => {
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -37,7 +37,7 @@ app.get('/feed/user/:userId', (req, res) => {
 /*------------- Post routes ---------------*/
 
 // Create a new post
-app.post('/', (req, res) => {
+router.post('/', (req, res) => {
     Post.create(req.body, (error, createdPost) => {
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -49,7 +49,7 @@ app.post('/', (req, res) => {
 /*------------- Put routes ---------------*/
 
 // Update a post
-app.put('/update/:id', (req, res) => {
+router.put('/update/:id', (req, res) => {
     Post.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedPost) => {
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -61,7 +61,7 @@ app.put('/update/:id', (req, res) => {
 /*------------- Delete routes ---------------*/
 
 // Delete a post
-app.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     Post.findByIdAndRemove(req.params.id, (error, deletedPost) => {
         if (error) {
             return res.status(400).json({ error: error.message });

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+//schema calls
+const commentSchema = require("./comment");
+
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -14,14 +17,5 @@ const postSchema = new mongoose.Schema({
         required: true,
     },
 
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Comment",
-        },
-    ],
+    comments: [commentSchema],
 });
-
-const Post = mongoose.model("Post", postSchema);
-
-module.exports = Post;
