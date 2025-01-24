@@ -60,10 +60,6 @@ app.get('/', (req, res) => {
 const authController = require("./controllers/authController.js");
 app.use('/auth', authController);
 
-//user controller
-const userController = require("./controllers/userController.js");
-app.use('/user', userController);
-
 //post controller
 const postController = require("./controllers/postController.js");
 app.use('/post', postController);
