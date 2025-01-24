@@ -49,11 +49,28 @@ app.use(
 );
 
 // custom middleware
-const isSignedIn = require('./middleware/is-signed-in.js');
-const passUserToView = require('./middleware/pass-user-to-view.js');
+
+/* -------------- Routes ---------------- */
+app.get('/', (req, res) => {
+  res.render('pages/home');
+});
 
 /* -------------- controllers ---------------- */
+// authentication controller
+const authController = require("./controllers/authController.js");
+app.use('/auth', authController);
 
+//user controller
+const userController = require("./controllers/userController.js");
+app.use('/user', userController);
+
+//post controller
+const postController = require("./controllers/postController.js");
+app.use('/post', postController);
+
+//comment controller
+const commentController = require("./controllers/commentController.js");
+app.use('/comment', commentController);
 
 /* -------------- App-Listener ---------------- */
 app.listen(port, () => {
