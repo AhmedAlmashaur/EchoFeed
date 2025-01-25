@@ -13,7 +13,7 @@ const Post = require('../models/Post');
 // Find posts by a single user
 router.get('/user/:userId/posts', async (req, res) => {
     try {
-        const posts = await Post.find({ user: req.params.userId });
+        const posts = await Post.find({ author: req.params.userId });
         res.json(posts);
     } catch (err) {
         res.status(500).send('Error occurred');
@@ -35,7 +35,7 @@ router.post('/posts', isAuthenticated, async (req, res) => {
     try {
         const { title, content } = req.body;
         const newPost = new Post({
-            user: req.session.userId,
+            author: req.session.userId,
             title,
             content
         });
@@ -46,6 +46,7 @@ router.post('/posts', isAuthenticated, async (req, res) => {
         res.status(500).send('Error occurred');
     }
 });
+
 
 // Edit a post
 router.put('/posts/:postId', isAuthenticated, async (req, res) => {

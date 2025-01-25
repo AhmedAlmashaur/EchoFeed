@@ -64,10 +64,6 @@ app.use('/auth', authController);
 const postController = require("./controllers/postController.js");
 app.use('/post', postController);
 
-//comment controller
-const commentController = require("./controllers/commentController.js");
-app.use('/comment', commentController);
-
 /* -------------- App-Listener ---------------- */
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
