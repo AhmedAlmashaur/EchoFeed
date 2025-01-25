@@ -23,7 +23,7 @@ router.get('/user/:userId/posts', async (req, res) => {
 // Find all posts
 router.get('/posts', async (req, res) => {
     try {
-        const posts = await Post.find().populate('user');
+        const posts = await Post.find();
         res.json(posts);
     } catch (err) {
         res.status(500).send('Error occurred');
@@ -41,7 +41,7 @@ router.post('/posts', isAuthenticated, async (req, res) => {
         });
 
         await newPost.save();
-        res.send('Post added');
+        res.redirect('/');
     } catch (err) {
         res.status(500).send('Error occurred');
     }
@@ -56,7 +56,7 @@ router.put('/posts/:postId', isAuthenticated, async (req, res) => {
         if (!post) {
             return res.status(400).send('Post not found');
         }
-        res.send('Post updated');
+        res.redirect('/'); 
     } catch (err) {
         res.status(500).send('Error occurred');
     }
@@ -66,7 +66,7 @@ router.put('/posts/:postId', isAuthenticated, async (req, res) => {
 router.delete('/posts/:postId', isAuthenticated, async (req, res) => {
     try {
         await Post.findByIdAndDelete(req.params.postId);
-        res.send('Post deleted');
+        res.redirect('/');
     } catch (err) {
         res.status(500).send('Error occurred');
     }

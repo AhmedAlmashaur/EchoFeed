@@ -14,11 +14,11 @@ const Post = require('../models/Post');
 /*------------------ Routes ------------------*/
 
 router.get('/login', (req, res) => {
-    res.render('auth/login');
+    res.render('auth/login', { user: req.session.currentUser });
 });
 
 router.get('/register', (req, res) => {
-    res.render('auth/register');
+    res.render('auth/register', { user: req.session.currentUser });
 });
 
 
@@ -35,12 +35,11 @@ router.post('/register', async (req, res) => {
         });
 
         await newUser.save();
-        res.send('Registration successful');
+        res.redirect('login');
     } catch (err) {
         res.status(500).send('Error occurred');
     }
 });
-
 
 router.post('/login', async (req, res) => {
     try {
@@ -48,28 +47,33 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).send('User not found');
+            req.flash('error', 'User not found');
+            return res.redirect('/auth/login');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).send('Invalid credentials');
+            req.flash('error', 'Invalid credentials');
+            return res.redirect('/auth/login');
         }
 
         req.session.userId = user._id;
-        res.send('Login successful');
+        res.redirect('/auth/profile');
     } catch (err) {
-        res.status(500).send('Error occurred');
+        req.flash('error', 'An unexpected error occurred');
+        res.redirect('/auth/login');
     }
 });
+
 
 
 router.get('/logout', (req, res) => {
     // Handle logout logic
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/auth/login');
 });
+
 
 router.get('/profile', isAuthenticated, async (req, res) => {
     try {
@@ -77,11 +81,13 @@ router.get('/profile', isAuthenticated, async (req, res) => {
         if (!user) {
             return res.status(400).send('User not found');
         }
-        res.render('pages/profile', { user });
-    } catch (err) {
-        res.status(500).send('Error occurred');
-    }
-});
+        const posts = await Post.find({ author: user._id });
+        res.render('pages/profile', { user, posts });
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        res.status(500).send('An error occurred.');
+      }
+    });
 
 
 router.put('/edit', isAuthenticated, async (req, res) => {
@@ -91,7 +97,7 @@ router.put('/edit', isAuthenticated, async (req, res) => {
         if (!user) {
             return res.status(400).send('Error updating profile');
         }
-        res.send('Profile updated');
+        res.redirect('profile');
     } catch (err) {
         res.status(500).send('Error occurred');
     }
@@ -101,7 +107,7 @@ router.put('/edit', isAuthenticated, async (req, res) => {
 router.delete('/delete', isAuthenticated, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.session.userId);
-        res.send('Account deleted');
+        res.redirect('login');
     } catch (err) {
         res.status(500).send('Error occurred');
     }

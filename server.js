@@ -32,7 +32,8 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log("Database connected"))
   .catch(err => console.error(err));
 
-/* -------------- Middleware ---------------- */
+
+/*------------ Middleware ---------------- */
 // urlencoded
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,10 +50,19 @@ app.use(
 );
 
 // custom middleware
-
+const isAuthenticated = require('./middleware/isAuthenticated');
 /* -------------- Routes ---------------- */
-app.get('/', (req, res) => {
-  res.render('pages/home');
+app.get('/', async (req, res)=> {
+  res.render('pages/home', { user: req.session.currentUser }) 
+});
+
+/*------------------ connect-flash ------------------*/
+const flash = require('connect-flash');
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
 });
 
 /* -------------- controllers ---------------- */
